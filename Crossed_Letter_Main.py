@@ -29,6 +29,7 @@ to create purple.
 # Import necessary libraries
 import docx
 import PyPDF2
+import math
 from PIL import Image, ImageDraw, ImageFont
 
 # Function to extract text from various formats
@@ -77,15 +78,17 @@ def text_clean(text):
     total_image = round(total_lines // (half_length * 2))
 
     #create a red and blue list to hold the text
+    total_image = math.ceil(total_lines / (half_length * 2))
     blue_list = [''] * total_image
     red_list = [''] * total_image
 
     cleaned_text_lines = cleaned_text.split('\n')
+    counter = 0
     for i in range(0, len(cleaned_text_lines), (half_length*2)):
         if i % half_length == 0:
-            blue_list[i] = '\n'.join(cleaned_text_lines[:half_length])
-            red_list[i] = '\n'.join(cleaned_text_lines[half_length:])
-        #Remove the designated lines from the list
+            blue_list[counter] = '\n'.join(cleaned_text_lines[:half_length])
+            red_list[counter] = '\n'.join(cleaned_text_lines[half_length:])
+            counter += 1
         cleaned_text_lines = cleaned_text_lines[(half_length*2):]
     return blue_list, red_list, total_image
 
@@ -152,7 +155,7 @@ def main():
     print(blue_list)
     print(red_list)
     # Generate crossed letter
-    generate_crossed_letter(text_1, text_2)
+    generate_crossed_letter(blue_list, red_list)
     print("Crossed Letter Generated!")
 
 if __name__ == "__main__":
