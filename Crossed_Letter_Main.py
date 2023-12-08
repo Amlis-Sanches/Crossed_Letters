@@ -74,7 +74,7 @@ def text_clean(text):
     total_lines = len(cleaned_text.split('\n'))
     
     # split lines after you reach 33 lines
-    half_length = 32
+    half_length = 32 #Set to a specific number to fit the desired image
     cleaned_text_lines = cleaned_text.split('\n')
 
     cleaned_text_1 = '\n'.join(cleaned_text_lines[:half_length])
@@ -112,7 +112,12 @@ def generate_crossed_letter(text1, text2):
     img.save('crossed_letter.png')
 
 
-# Main function to handle the workflow
+'''
+Main function to handle the workflow.
+
+
+Here i will recieve the text varables in a list and then pass them through the generate_crossed_letter function. 
+'''
 def main():
     # Get file path and type from user
     # Validate filetype and if wrong file type is entered, ask again
@@ -131,8 +136,11 @@ def main():
             exit()
         else:
             print("Invalid file type. Please try again.")
-
-    #clean text for generation
+    '''
+    clean text for generation and return two lists filled with the text string variables.
+    I create the list inside the function because I want to have everything formed befor 
+    I pass it to the generate_crossed_letter function.
+    '''
     text_1, text_2 = text_clean(text)
     print(text_1, '\n')
     print(text_2)
