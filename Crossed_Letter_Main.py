@@ -148,9 +148,9 @@ def main():
     I create the list inside the function because I want to have everything formed befor 
     I pass it to the generate_crossed_letter function.
     '''
-    text_1, text_2 = text_clean(text)
-    print(text_1, '\n')
-    print(text_2)
+    blue_list, red_list, num_of_images = text_clean(text)
+    print(blue_list)
+    print(red_list)
     # Generate crossed letter
     generate_crossed_letter(text_1, text_2)
     print("Crossed Letter Generated!")
