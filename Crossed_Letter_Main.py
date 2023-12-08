@@ -34,7 +34,7 @@ CreateList Branch - Split the text into two halves but by a set number of lines 
 import docx
 import PyPDF2
 import math
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageChops
 
 # Function to extract text from various formats
 def extract_text(file_path, file_type):
@@ -160,7 +160,7 @@ def generate_crossed_letter(text1, text2, num_of_images):
     blended = Image.blend(img1, img2, alpha=0.5)
 
     # Save the result
-    blended.save('blended.png')
+    blended.save('blended_' + str(num_of_images) + '.png')
 
 
 '''
