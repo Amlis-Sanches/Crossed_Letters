@@ -111,7 +111,39 @@ def generate_crossed_letter(text1, text2):
     img = ImageChops.add(img1, img2)
 
     # Save the image
-    img.save('crossed_letter.png')
+    img.save('crossed_letter_purple.png')
+
+    # Create a new image with the red and blue text on one image. 
+    img = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
+    draw = ImageDraw.Draw(img)
+
+    # Select a font
+    font = ImageFont.load_default()
+
+    # Add first layer of text in blue
+    draw.text((10, 10), text1, fill=(0, 0, 255), font=font)
+
+    # Rotate the image
+    img = img.rotate(90, expand=1)
+
+    # Create a new drawing context for the rotated image
+    draw = ImageDraw.Draw(img)
+
+    # Add second layer of text in red
+    draw.text((10, 10), text2, fill=(255, 0, 0), font=font)
+
+    # Save the image
+    img.save('crossed_letter_' + str(num_of_images) + '.png')
+    
+    # Open the two images
+    img1 = Image.open('crossed_letter.png')
+    img2 = Image.open('merged_image.png')
+
+    # Blend the images
+    blended = Image.blend(img1, img2, alpha=0.5)
+
+    # Save the result
+    blended.save('blended.png')
 
 
 # Main function to handle the workflow
