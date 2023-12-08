@@ -103,7 +103,7 @@ The generate_crossed_letter function is designed to create an image that
 displays two layers of text in different colors (blue and red) overlaid 
 in a "crossed letter" style
 
-Update: Merg Branch - Create a merged image of the two texts where the spots the blue and red overlap are purple. 
+Create a new merg branch since merg cannot be done in the main function.
 '''
 def generate_crossed_letter(text1, text2, num_of_images):
     # Create a new image
