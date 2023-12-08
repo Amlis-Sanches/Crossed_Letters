@@ -61,32 +61,51 @@ def extract_text(file_path, file_type):
     return text
     
 def text_clean(text):
-    #clean text for generation
+    # Clean text for generation
     cleaned_text = text.replace('\n', '')
     cleaned_text = cleaned_text.replace('\t', '')
-    #shape test to fit for the desired image
+    
+    # Shape test to fit for the desired image
     for i in range(0, len(cleaned_text), 100):
         if i % 100 == 0:
             cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i:]
-    return cleaned_text
+    
+    # Divide the cleaned_text into two halves
+    half_length = len(cleaned_text) // 2
+    cleaned_text_1 = cleaned_text[:half_length]
+    cleaned_text_2 = cleaned_text[half_length:]
+    
+    return cleaned_text_1, cleaned_text_2
+
 
 # Function to generate crossed letter image/document
-def generate_crossed_letter(text):
-    print(text) #currently a test for the extracting test function
-    # Create a new image or document
-    # Write first set of text in blue
-    # Rotate and write second set of text in red
-    # Process overlapping areas to create purple
-    # Save the output
-    pass
+def generate_crossed_letter(text1, text2):
+    # Create a blank image canvas
+    img = Image.new('RGB', (800, 1000), color = (255, 255, 255))
+    draw = ImageDraw.Draw(img)
+
+    # Select a font
+    font = ImageFont.load_default()
+
+    # Add first layer of text in blue
+    draw.text((10, 10), text1, fill=(0, 0, 255), font=font)
+
+    # Rotate the image and add second layer of text in red
+    img = img.rotate(90, expand=1)
+    draw = ImageDraw.Draw(img)
+    draw.text((10, -790), text2, fill=(255, 0, 0), font=font)
+
+    # Additional code to handle overlapping text and create purple color
+
+    # Save the image
+    img.save('crossed_letter.png')
 
 # Main function to handle the workflow
 def main():
     # Get file path and type from user
-    file_path = input("Enter the file path: ")
-
     # Validate filetype and if wrong file type is entered, ask again
     while True:
+        file_path = input("Enter the file path: ")
         file_type = input("Enter the file type (text/word/pdf): ")
         if file_type in ["text", "word", "pdf"]:
             #try to confirm and extract text from file
@@ -102,9 +121,11 @@ def main():
             print("Invalid file type. Please try again.")
 
     #clean text for generation
-    text = text_clean(text)
+    text_1, text_2 = text_clean(text)
+    print(text_1)
+    print(text_2)
     # Generate crossed letter
-    generate_crossed_letter(text)
+    generate_crossed_letter(text_1, text_2)
 
 if __name__ == "__main__":
     main()
