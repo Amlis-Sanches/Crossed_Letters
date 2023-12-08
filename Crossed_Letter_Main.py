@@ -33,6 +33,7 @@ CreateList Branch - Split the text into two halves but by a set number of lines 
 # Import necessary libraries
 import docx
 import PyPDF2
+import math
 from PIL import Image, ImageDraw, ImageFont
 
 # Function to extract text from various formats
@@ -58,9 +59,9 @@ def extract_text(file_path, file_type):
                     full_text.append(page_obj.extractText())
                 text = "\n".join(full_text)
             case _:
-                pass
+                text = "Program Error"
     except:
-        text = "Error"
+        text = "Error! Text document not identified. Please try again."
     #return just a string with all the text from the file
     return text
     
@@ -74,17 +75,27 @@ def text_clean(text):
         if i % 80 == 0:
             cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i:]
     
-    # Divide the cleaned_text into two halves
-    '''
-    Update: Createlist Branch - Split the text into two halves but by 
-    a set number of lines (32) and create a new text variable that is 
-    numbered and inputted into a list.
-    '''
-    half_length = len(cleaned_text) // 2
-    cleaned_text_1 = cleaned_text[:half_length]
-    cleaned_text_2 = cleaned_text[half_length:]
-    
-    return cleaned_text_1, cleaned_text_2
+    # Count the total number of lines and determine how many images will be processed
+    total_lines = len(cleaned_text.split('\n'))
+    # split lines after you reach 32 lines so the \n fits the image
+    half_length = 32 #Set to a specific number to fit the desired image
+    total_image = round(total_lines // (half_length * 2))
+
+    #create a red and blue list to hold the text
+    total_image = math.ceil(total_lines / (half_length * 2))
+    blue_list = [''] * total_image
+    red_list = [''] * total_image
+
+    cleaned_text_lines = cleaned_text.split('\n')
+    counter = 0
+    for i in range(0, len(cleaned_text_lines), (half_length*2)):
+        if i % half_length == 0:
+            blue_list[counter] = '\n'.join(cleaned_text_lines[:half_length])
+            red_list[counter] = '\n'.join(cleaned_text_lines[half_length:])
+            counter += 1
+        cleaned_text_lines = cleaned_text_lines[(half_length*2):]
+    return blue_list, red_list, total_image
+
 
 
 '''
@@ -94,7 +105,7 @@ in a "crossed letter" style
 
 Update: Merg Branch - Create a merged image of the two texts where the spots the blue and red overlap are purple. 
 '''
-def generate_crossed_letter(text1, text2):
+def generate_crossed_letter(text1, text2, num_of_images):
     # Create a new image
     img = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
     draw = ImageDraw.Draw(img)
@@ -115,10 +126,15 @@ def generate_crossed_letter(text1, text2):
     draw.text((10, 10), text2, fill=(255, 0, 0), font=font)
 
     # Save the image
-    img.save('crossed_letter.png')
+    img.save('crossed_letter_' + str(num_of_images) + '.png')
 
 
-# Main function to handle the workflow
+'''
+Main function to handle the workflow.
+
+
+Here i will recieve the text varables in a list and then pass them through the generate_crossed_letter function. 
+'''
 def main():
     # Get file path and type from user
     # Validate filetype and if wrong file type is entered, ask again
@@ -137,13 +153,17 @@ def main():
             exit()
         else:
             print("Invalid file type. Please try again.")
+    '''
+    clean text for generation and return two lists filled with the text string variables.
+    I create the list inside the function because I want to have everything formed befor 
+    I pass it to the generate_crossed_letter function.
+    '''
+    blue_list, red_list, num_of_images = text_clean(text)
 
-    #clean text for generation
-    text_1, text_2 = text_clean(text)
-    print(text_1)
-    print(text_2)
     # Generate crossed letter
-    generate_crossed_letter(text_1, text_2)
+    for i in range(num_of_images):
+        generate_crossed_letter(blue_list[i], red_list[i], i)
+    
     print("Crossed Letter Generated!")
 
 if __name__ == "__main__":
