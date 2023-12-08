@@ -54,9 +54,9 @@ def extract_text(file_path, file_type):
                     full_text.append(page_obj.extractText())
                 text = "\n".join(full_text)
             case _:
-                pass
+                text = "Program Error"
     except:
-        text = "Error"
+        text = "Error! Text document not identified. Please try again."
     #return just a string with all the text from the file
     return text
     
