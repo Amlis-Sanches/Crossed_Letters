@@ -94,13 +94,14 @@ def generate_crossed_letter(text1, text2):
     # Add first layer of text in blue
     draw.text((10, 10), text1, fill=(0, 0, 255), font=font)
 
-    #rotate the image
+    # Rotate the image
     img = img.rotate(90, expand=1)
 
+    # Create a new drawing context for the rotated image
+    draw = ImageDraw.Draw(img)
+
     # Add second layer of text in red
-    draw_red.text((10, 10), text2, fill=(255, 0, 0), font=font)
-    # Rotate the red text image
-    img_red = img_red.rotate(-90, expand=1)
+    draw.text((10, 10), text2, fill=(255, 0, 0), font=font)
 
     # Save the image
     img.save('crossed_letter.png')
