@@ -72,9 +72,9 @@ def text_clean(text):
     
     # Count the total number of lines
     total_lines = len(cleaned_text.split('\n'))
-    print(total_lines)
-    # Divide the cleaned_text into two halves
-    half_length = total_lines // 2
+    
+    # split lines after you reach 33 lines
+    half_length = 32
     cleaned_text_lines = cleaned_text.split('\n')
 
     cleaned_text_1 = '\n'.join(cleaned_text_lines[:half_length])
