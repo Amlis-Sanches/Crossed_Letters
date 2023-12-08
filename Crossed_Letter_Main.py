@@ -66,8 +66,8 @@ def text_clean(text):
     cleaned_text = cleaned_text.replace('\t', '')
     
     # Shape test to fit for the desired image
-    for i in range(0, len(cleaned_text), 100):
-        if i % 100 == 0:
+    for i in range(0, len(cleaned_text), 125):
+        if i % 125 == 0:
             cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i:]
     
     # Divide the cleaned_text into two halves
@@ -78,7 +78,11 @@ def text_clean(text):
     return cleaned_text_1, cleaned_text_2
 
 
-# Function to generate crossed letter image/document
+'''
+The generate_crossed_letter function is designed to create an image that 
+displays two layers of text in different colors (blue and red) overlaid 
+in a "crossed letter" style
+'''
 def generate_crossed_letter(text1, text2):
     # Create a blank image canvas
     img = Image.new('RGB', (800, 1000), color = (255, 255, 255))
@@ -90,15 +94,17 @@ def generate_crossed_letter(text1, text2):
     # Add first layer of text in blue
     draw.text((10, 10), text1, fill=(0, 0, 255), font=font)
 
-    # Rotate the image and add second layer of text in red
+    #rotate the image
     img = img.rotate(90, expand=1)
-    draw = ImageDraw.Draw(img)
-    draw.text((10, -790), text2, fill=(255, 0, 0), font=font)
 
-    # Additional code to handle overlapping text and create purple color
+    # Add second layer of text in red
+    draw_red.text((10, 10), text2, fill=(255, 0, 0), font=font)
+    # Rotate the red text image
+    img_red = img_red.rotate(-90, expand=1)
 
     # Save the image
     img.save('crossed_letter.png')
+
 
 # Main function to handle the workflow
 def main():
@@ -126,6 +132,7 @@ def main():
     print(text_2)
     # Generate crossed letter
     generate_crossed_letter(text_1, text_2)
+    print("Crossed Letter Generated!")
 
 if __name__ == "__main__":
     main()
