@@ -70,10 +70,15 @@ def text_clean(text):
         if i % 80 == 0:
             cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i:]
     
+    # Count the total number of lines
+    total_lines = len(cleaned_text.split('\n'))
+    print(total_lines)
     # Divide the cleaned_text into two halves
-    half_length = len(cleaned_text) // 2
-    cleaned_text_1 = cleaned_text[:half_length]
-    cleaned_text_2 = cleaned_text[half_length:]
+    half_length = total_lines // 2
+    cleaned_text_lines = cleaned_text.split('\n')
+
+    cleaned_text_1 = '\n'.join(cleaned_text_lines[:half_length])
+    cleaned_text_2 = '\n'.join(cleaned_text_lines[half_length:])
     
     return cleaned_text_1, cleaned_text_2
 
@@ -129,7 +134,7 @@ def main():
 
     #clean text for generation
     text_1, text_2 = text_clean(text)
-    print(text_1)
+    print(text_1, '\n')
     print(text_2)
     # Generate crossed letter
     generate_crossed_letter(text_1, text_2)
