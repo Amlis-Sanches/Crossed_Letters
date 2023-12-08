@@ -66,8 +66,8 @@ def text_clean(text):
     cleaned_text = cleaned_text.replace('\t', '')
     
     # Shape test to fit for the desired image
-    for i in range(0, len(cleaned_text), 125):
-        if i % 125 == 0:
+    for i in range(0, len(cleaned_text), 80):
+        if i % 80 == 0:
             cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i:]
     
     # Divide the cleaned_text into two halves
@@ -84,8 +84,8 @@ displays two layers of text in different colors (blue and red) overlaid
 in a "crossed letter" style
 '''
 def generate_crossed_letter(text1, text2):
-    # Create a blank image canvas
-    img = Image.new('RGB', (800, 1000), color = (255, 255, 255))
+    # Create a new image
+    img = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
     draw = ImageDraw.Draw(img)
 
     # Select a font
