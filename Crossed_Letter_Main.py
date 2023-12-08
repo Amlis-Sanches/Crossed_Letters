@@ -106,7 +106,31 @@ in a "crossed letter" style
 Create a new merg branch since merg cannot be done in the main function.
 '''
 def generate_crossed_letter(text1, text2, num_of_images):
-    # Create a new image
+    # Create new images for each layer of text
+    img1 = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
+    img2 = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
+    draw1 = ImageDraw.Draw(img1)
+    draw2 = ImageDraw.Draw(img2)
+
+    # Select a font
+    font = ImageFont.load_default()
+
+    # Add first layer of text in blue
+    draw1.text((10, 10), text1, fill=(0, 0, 255), font=font)
+
+    # Rotate the first image
+    img1 = img1.rotate(90, expand=1)
+
+    # Add second layer of text in red
+    draw2.text((10, 10), text2, fill=(255, 0, 0), font=font)
+
+    # Merge the two images
+    img = ImageChops.add(img1, img2)
+
+    # Save the image
+    img.save('crossed_letter_purple_' + str(num_of_images) + '.png')
+
+    # Create a new image with the red and blue text on one image. 
     img = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
     draw = ImageDraw.Draw(img)
 
@@ -127,6 +151,16 @@ def generate_crossed_letter(text1, text2, num_of_images):
 
     # Save the image
     img.save('crossed_letter_' + str(num_of_images) + '.png')
+    
+    # Open the two images
+    img1 = Image.open('crossed_letter_' + str(num_of_images) + '.png')
+    img2 = Image.open('crossed_letter_purple_' + str(num_of_images) + '.png')
+
+    # Blend the images
+    blended = Image.blend(img1, img2, alpha=0.5)
+
+    # Save the result
+    blended.save('blended.png')
 
 
 '''
