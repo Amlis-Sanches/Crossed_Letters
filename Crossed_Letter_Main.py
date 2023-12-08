@@ -98,7 +98,7 @@ The generate_crossed_letter function is designed to create an image that
 displays two layers of text in different colors (blue and red) overlaid 
 in a "crossed letter" style
 '''
-def generate_crossed_letter(text1, text2):
+def generate_crossed_letter(text1, text2, num_of_images):
     # Create a new image
     img = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
     draw = ImageDraw.Draw(img)
@@ -119,7 +119,7 @@ def generate_crossed_letter(text1, text2):
     draw.text((10, 10), text2, fill=(255, 0, 0), font=font)
 
     # Save the image
-    img.save('crossed_letter.png')
+    img.save('crossed_letter_' + str(num_of_images) + '.png')
 
 
 '''
@@ -152,10 +152,11 @@ def main():
     I pass it to the generate_crossed_letter function.
     '''
     blue_list, red_list, num_of_images = text_clean(text)
-    print(blue_list)
-    print(red_list)
+
     # Generate crossed letter
-    generate_crossed_letter(blue_list, red_list)
+    for i in range(num_of_images):
+        generate_crossed_letter(blue_list[i], red_list[i], i)
+    
     print("Crossed Letter Generated!")
 
 if __name__ == "__main__":
