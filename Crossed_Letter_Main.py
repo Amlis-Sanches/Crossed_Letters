@@ -71,6 +71,11 @@ def text_clean(text):
             cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i:]
     
     # Divide the cleaned_text into two halves
+    '''
+    Update: Createlist Branch - Split the text into two halves but by 
+    a set number of lines (32) and create a new text variable that is 
+    numbered and inputted into a list.
+    '''
     half_length = len(cleaned_text) // 2
     cleaned_text_1 = cleaned_text[:half_length]
     cleaned_text_2 = cleaned_text[half_length:]
@@ -82,6 +87,8 @@ def text_clean(text):
 The generate_crossed_letter function is designed to create an image that 
 displays two layers of text in different colors (blue and red) overlaid 
 in a "crossed letter" style
+
+Update: Merg Branch - Create a merged image of the two texts where the spots the blue and red overlap are purple. 
 '''
 def generate_crossed_letter(text1, text2):
     # Create a new image
