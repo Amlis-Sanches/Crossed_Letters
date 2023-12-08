@@ -29,7 +29,7 @@ to create purple.
 # Import necessary libraries
 import docx
 import PyPDF2
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageChops
 
 # Function to extract text from various formats
 def extract_text(file_path, file_type):
@@ -89,24 +89,26 @@ displays two layers of text in different colors (blue and red) overlaid
 in a "crossed letter" style
 '''
 def generate_crossed_letter(text1, text2):
-    # Create a new image
-    img = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
-    draw = ImageDraw.Draw(img)
+    # Create new images for each layer of text
+    img1 = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
+    img2 = Image.new('RGB', (500, 500), color = (255, 255, 255)) #for testing
+    draw1 = ImageDraw.Draw(img1)
+    draw2 = ImageDraw.Draw(img2)
 
     # Select a font
     font = ImageFont.load_default()
 
     # Add first layer of text in blue
-    draw.text((10, 10), text1, fill=(0, 0, 255), font=font)
+    draw1.text((10, 10), text1, fill=(0, 0, 255), font=font)
 
-    # Rotate the image
-    img = img.rotate(90, expand=1)
-
-    # Create a new drawing context for the rotated image
-    draw = ImageDraw.Draw(img)
+    # Rotate the first image
+    img1 = img1.rotate(90, expand=1)
 
     # Add second layer of text in red
-    draw.text((10, 10), text2, fill=(255, 0, 0), font=font)
+    draw2.text((10, 10), text2, fill=(255, 0, 0), font=font)
+
+    # Merge the two images
+    img = ImageChops.add(img1, img2)
 
     # Save the image
     img.save('crossed_letter.png')
