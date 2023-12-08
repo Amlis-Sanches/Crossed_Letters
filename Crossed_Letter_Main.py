@@ -24,6 +24,10 @@ A Crossed Letter image or document with the specified text, saved in the user's 
 The image will have the first set of text running left to right in blue, and the second
 set of text running top to bottom in red. Where the texts overlap, the colors will blend
 to create purple.
+
+Update:
+Merged Branch - Create a merged image of the two texts where the spots the blue and red overlap are purple.
+CreateList Branch - Split the text into two halves but by a set number of lines (32) and create a new text variable that is numbered and inputted into a list.
 '''
 
 # Import necessary libraries
@@ -93,10 +97,13 @@ def text_clean(text):
     return blue_list, red_list, total_image
 
 
+
 '''
 The generate_crossed_letter function is designed to create an image that 
 displays two layers of text in different colors (blue and red) overlaid 
 in a "crossed letter" style
+
+Update: Merg Branch - Create a merged image of the two texts where the spots the blue and red overlap are purple. 
 '''
 def generate_crossed_letter(text1, text2, num_of_images):
     # Create a new image
