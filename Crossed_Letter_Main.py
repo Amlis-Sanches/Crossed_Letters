@@ -74,14 +74,20 @@ def text_clean(text):
     total_lines = len(cleaned_text.split('\n'))
     # split lines after you reach 32 lines so the \n fits the image
     half_length = 32 #Set to a specific number to fit the desired image
-    totalImage = round(total_lines // (half_length * 2))
+    total_image = round(total_lines // (half_length * 2))
+
+    #create a red and blue list to hold the text
+    blue_list = [''] * total_image
+    red_list = [''] * total_image
 
     cleaned_text_lines = cleaned_text.split('\n')
-
-    cleaned_text_1 = '\n'.join(cleaned_text_lines[:half_length])
-    cleaned_text_2 = '\n'.join(cleaned_text_lines[half_length:])
-    
-    return cleaned_text_1, cleaned_text_2, totalImage
+    for i in range(0, len(cleaned_text_lines), (half_length*2)):
+        if i % half_length == 0:
+            blue_list[i] = '\n'.join(cleaned_text_lines[:half_length])
+            red_list[i] = '\n'.join(cleaned_text_lines[half_length:])
+        #Remove the designated lines from the list
+        cleaned_text_lines = cleaned_text_lines[(half_length*2):]
+    return blue_list, red_list, total_image
 
 
 '''
