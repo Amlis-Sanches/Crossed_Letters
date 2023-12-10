@@ -71,15 +71,23 @@ def text_clean(text):
     for i in range(0, len(cleaned_text), 80):
         if i + 1 < len(cleaned_text):  # Ensure i+1 is a valid index
             if cleaned_text[i] in ' .,?!:;':
-                cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i+1:]
-            elif cleaned_text[i].isalpha() and cleaned_text[i+1] in ' .,?!:;':
+                cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i:]
+            elif (cleaned_text[i].isalpha() or cleaned_text[i] == "'") and cleaned_text[i+1] in " .,?!:;'":
                 cleaned_text = cleaned_text[:i+1] + '\n' + cleaned_text[i+1:]
-            elif cleaned_text[i].isalpha() and cleaned_text[i+1].isalpha():
+            elif (cleaned_text[i].isalpha() or cleaned_text[i] == "'") and (cleaned_text[i].isalpha() or cleaned_text[i] == "'"):
                 for j in range(i, max(0, i-80), -1):  # Iterate backwards from i
                     if cleaned_text[j] == ' ':
-                        cleaned_text = cleaned_text[:j] + '\n' + cleaned_text[j:]
+                        cleaned_text = cleaned_text[:j] + '\n' + cleaned_text[j+1:]
                         break  # Exit the loop once a space is found
-            
+
+    # Check if the last line is longer than 80 characters
+    last_newline = cleaned_text.rfind('\n')
+    if len(cleaned_text) - last_newline > 80:
+        for j in range(len(cleaned_text), last_newline, -1):
+            if cleaned_text[j] == ' ':
+                cleaned_text = cleaned_text[:j] + '\n' + cleaned_text[j+1:]
+                break  # Exit the loop once a space is found
+
 
     # Count the total number of lines and determine how many images will be processed
     total_lines = len(cleaned_text.split('\n'))
