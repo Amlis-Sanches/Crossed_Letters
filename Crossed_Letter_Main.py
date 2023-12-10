@@ -58,7 +58,7 @@ def extract_text(file_path, file_type):
             case _:
                 text = "Program Error"
     except:
-        text = "Error! Text document not identified. Please try again."
+        text = "Error! Document not identified. Please try again."
     #return just a string with all the text from the file
     return text
     
@@ -69,13 +69,22 @@ def text_clean(text):
     
     # Shape test to fit for the desired image
     for i in range(0, len(cleaned_text), 80):
-        if i % 80 == 0:
-            cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i:]
-    
+        if i + 1 < len(cleaned_text):  # Ensure i+1 is a valid index
+            if cleaned_text[i] in ' .,?!:;':
+                cleaned_text = cleaned_text[:i] + '\n' + cleaned_text[i+1:]
+            elif cleaned_text[i].isalpha() and cleaned_text[i+1] in ' .,?!:;':
+                cleaned_text = cleaned_text[:i+1] + '\n' + cleaned_text[i+1:]
+            elif cleaned_text[i].isalpha() and cleaned_text[i+1].isalpha():
+                for j in range(i, max(0, i-80), -1):  # Iterate backwards from i
+                    if cleaned_text[j] == ' ':
+                        cleaned_text = cleaned_text[:j] + '\n' + cleaned_text[j:]
+                        break  # Exit the loop once a space is found
+            
+
     # Count the total number of lines and determine how many images will be processed
     total_lines = len(cleaned_text.split('\n'))
     # split lines after you reach 32 lines so the \n fits the image
-    half_length = 32 #Set to a specific number to fit the desired image
+    half_length = 30 #Set to a specific number to fit the desired image
     total_image = round(total_lines // (half_length * 2))
 
     #create a red and blue list to hold the text
@@ -92,8 +101,6 @@ def text_clean(text):
             counter += 1
         cleaned_text_lines = cleaned_text_lines[(half_length*2):]
     return blue_list, red_list, total_image
-
-
 
 '''
 The generate_crossed_letter function is designed to create an image that 
@@ -193,6 +200,7 @@ def main():
 
     # Generate crossed letter
     for i in range(num_of_images):
+        print(blue_list[i], "\n", "\n", red_list[i])
         generate_crossed_letter(blue_list[i], red_list[i], i)
     
     print("Crossed Letter Generated!")
