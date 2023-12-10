@@ -78,6 +78,7 @@ def text_clean(text):
                 for j in range(i, max(0, i-80), -1):  # Iterate backwards from i
                     if cleaned_text[j] == ' ':
                         cleaned_text = cleaned_text[:j] + '\n' + cleaned_text[j+1:]
+                        i = i-j
                         break  # Exit the loop once a space is found
 
     # Check if the last line is longer than 80 characters
