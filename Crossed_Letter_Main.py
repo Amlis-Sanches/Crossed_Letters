@@ -1,5 +1,5 @@
 '''
-Crossed Letter Image Generator v0.0.1
+Crossed Letter Image Generator v0.2.3
 Last edit made by: Nathaniel Horn
 #------------------------------------------------------------------------------#
 This Python script is designed to transform text from various file formats 
